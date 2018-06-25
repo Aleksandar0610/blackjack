@@ -6,7 +6,7 @@ values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8,
 
 playing = True
 
-#KLASA KARATA
+
 
 class Card():
     def __init__(self, suit, rank):
@@ -15,7 +15,7 @@ class Card():
     def __str__(self):
         return self.rank+ " of " +self.suit
 
-#KLASA PAlUBE
+
 
 class Deck():
     def __init__(self):
@@ -37,7 +37,7 @@ class Deck():
         single_card = self.deck.pop()
         return single_card
 
-#HAND CLASS
+
 
 class Hand:
     def __init__(self):
@@ -53,13 +53,11 @@ class Hand:
             self.aces += 1
 
     def adjust_for_ace(self):
-        #IF TOTAL VALUE > 21 AND ISTILL HAVE AN ACE
-        #THAN CHANGE MY ACE TO BE A 1 INSTEAD OF AN 11
         while self.value > 21 and self.aces:
             self.value -= 10
             self.aces -= 1
 
-#CLASS CHIPS
+
 
 class Chips():
     def __init__(self,total=100):
@@ -72,7 +70,7 @@ class Chips():
     def lose_bet(self):
         self.total -= self.bet
 
-#POLAGANJE OPKLADE
+
 
 def take_bet(chips):
     while True:
@@ -86,13 +84,13 @@ def take_bet(chips):
             else:
                 break
 
-#HIT (POTEZANJE KARTE)
+
 def hit(deck,hand):
     single_card = deck.deal()
     hand.add_card(single_card)
     hand.adjust_for_ace()
 
-#HIT OR STAND
+
 
 def hit_or_stand(deck,hand):
     global playing
@@ -109,7 +107,7 @@ def hit_or_stand(deck,hand):
             continue
         break
 
-#PALYER AND DILERS cards
+
 
 def show_some(player, dealer):
     print("DEALERS HAND:")
@@ -128,7 +126,7 @@ def show_all(player, dealer):
     for card in player.cards:
         print(card)
 
-#POBEDA ILI PORAZ
+
 
 def player_busts(player, dealer, chips):
     print("BUST PLAYER!")
@@ -146,12 +144,12 @@ def push(player, dealer, chips):
     print("Dealer and player tie. PUSH")
 
 
-#LOGIKA IGRE!!!!!!!!!
+
 
 while True:
-    #OPENINIG SCENE
+
     print("WELCOME TO BLACKJACK")
-    #SHUFFLE, DEAL TWO CARDS
+
     deck = Deck()
     deck.shuffle()
 
@@ -162,31 +160,31 @@ while True:
     dealer_hand = Hand()
     dealer_hand.add_card(deck.deal())
     dealer_hand.add_card(deck.deal())
-    #SET PLAYERS CHIPS
+
     player_chips = Chips()
 
-    #PROMPT PLAYER FOR THEIR BET
+
     take_bet(player_chips)
-    #SHOW CARDS
+
     show_some(player_hand,dealer_hand)
 
     while playing:
-        #PROMPT FOR PLAYER TO HIT OR STAND
+
         hit_or_stand(deck,player_hand)
-        #SHOW CARDS
+
         show_some(player_hand,dealer_hand)
-        #IF PALYERS HAND > 21, TYPE PLAYER_BUSTS AND BREAK OUT OF LOOP
+
         if player_hand.value > 21:
             player_busts(player_hand,dealer_hand,player_chips)
         break
 
-    #IF PLAYERS HASNT BUSTED, PLAY DEALERS HAND UNTIL DEALER REACHES 17
+
     if player_hand.value <= 21:
         while dealer_hand.value < 17:
             hit(deck,dealer_hand)
-            # SHOW ALL cards
+
             show_all(player_hand,dealer_hand)
-            #RUN DIFFERENT WINNIG SCENARIO
+
             if dealer_hand.value > 21:
                 dealer_busts(player_hand,dealer_hand,player_chips)
             elif dealer_hand.value > player_hand.value:
@@ -195,9 +193,9 @@ while True:
                 player_wins(player_hand,dealer_hand,player_chips)
             else:
                 push(player_hand,dealer_hand,player_chips)
-    #INFORM PLAYER OF THEIR CHIPS TOTAL
+
     print("\n Player total chips are at {}".format(player_chips.total))
-    #ASK TO PLAY AGAIN
+
     new_game = input("would you like to play another hand? y/n")
     if new_game[0].lower() == 'y':
         playing = True
